@@ -28,8 +28,10 @@ class AdminUserSubscriber implements EventSubscriber
         if (!$event->getObject() instanceof AdminUser){
             return false;
         }
+        /** @var AdminUser $user */
         $user = $event->getObject();
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, $user->getPlainPassword()));
+        $user->setRoles(['ROLE_ADMIN']);
     }
 
     public function getSubscribedEvents()

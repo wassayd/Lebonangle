@@ -16,25 +16,30 @@ class AdminUser implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $username;
+    private string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $email;
+    private string $email;
 
 
-    private ?string $plainPassword;
+    private string $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string  $password;
+    private string $password;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private array $roles = [];
 
     public function getId(): ?int
     {
@@ -90,11 +95,50 @@ class AdminUser implements UserInterface
     }
 
     /**
-     * @inheritDoc
+     * @see UserInterface
      */
-    public function getRoles()
+    public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function addRole($role)
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] =  $role;
+        }
+
+        return $this;
+    }
+
+    public function hasRole($role)
+    {
+        if (in_array($role, $this->roles)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function removeRole($role)
+    {
+        if ($this->hasRole($role)) {
+            unset($this->roles[array_search($role, $this->roles)]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**

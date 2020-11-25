@@ -32,3 +32,11 @@ services:
     App\EventSubscriber\AdminUserSubscriber:
         tags:
             - { name: doctrine.event_subscriber }
+
+    App\EventSubscriber\AdvertSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    App\EventSubscriber\PictureSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
