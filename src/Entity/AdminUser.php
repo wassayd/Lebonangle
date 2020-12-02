@@ -29,7 +29,7 @@ class AdminUser implements UserInterface
     private string $email;
 
 
-    private string $plainPassword;
+    private ?string $plainPassword = null;
 
     /**
      * @ORM\Column(type="string", length=255)

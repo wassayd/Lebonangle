@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advert index{% endblock %}
+
+{% block body %}
+    <h1>Advert index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Nombre de photo</th>
+                <th>Email</th>
+                <th>Price</th>
+                <th>State</th>
+                <th>PublishedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advert in adverts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ advert.title }}</td>
+                <td>{{ advert.author }}</td>
+                <td>{{ advert.pictures |length }}</td>
+                <td>{{ advert.email }}</td>
+                <td>{{ advert.price }}</td>
+                <td>{{ advert.state }}</td>
+                <td>{{ advert.publishedAt ? advert.publishedAt|date('d/m/Y') : '' }}</td>
+                <td>
+                    <a class="btn btn-outline-success" href="{{ path('advert_show', {'id': advert.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-outline-primary" href="{{ path('advert_change_state', {'id': advert.id, 'transition':'publish'}) }}"><i class="fa fa-check"></i></a>
+                    <a class="btn btn-outline-danger" href="{{ path('advert_change_state', {'id': advert.id, 'transition':'reject'}) }}"><i class="fa fa-times"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ knp_pagination_render(adverts) }}
+{% endblock %}

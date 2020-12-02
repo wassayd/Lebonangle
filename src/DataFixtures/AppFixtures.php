@@ -20,6 +20,12 @@ class AppFixtures extends Fixture
         $category = new Category();
         $category->setName('categorie test');
 
+        $userRoot = new AdminUser();
+        $userRoot->setUsername('root')
+            ->setEmail('root@root')
+            ->setPlainPassword('root')
+            ;
+
         for ($i = 0; $i<10; $i++) {
             $user = new AdminUser();
             $user->setUsername($faker->userName)
@@ -51,6 +57,7 @@ class AppFixtures extends Fixture
 
         }
         $manager->persist($category);
+        $manager->persist($userRoot);
         $manager->flush();
 
     }

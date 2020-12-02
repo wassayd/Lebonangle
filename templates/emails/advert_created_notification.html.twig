@@ -1,0 +1,22 @@
+{% extends '@email/default/notification/body.html.twig' %}
+
+{% block content %}
+    Author: {{ advert.author }}
+    <p>
+        {{ advert.content|nl2br }}
+    </p>
+{% endblock %}
+
+{% block action %}
+    <spacer size="16"></spacer>
+    <button href="{{ url('advert_show', {'id': advert.id}) }}">View</button>
+
+    {% if workflow_can(advert, 'publish')  %}
+        <button href="{{ url('advert_change_state', {'id': advert.id, 'transition':'publish'}) }}">Publier</button>
+    {% endif %}
+
+    {% if workflow_can(advert, 'reject')  %}
+        <button href="{{ url('advert_change_state', {'id': advert.id, 'transition':'reject'}) }}">Rejeter</button>
+    {% endif %}
+
+{% endblock %}

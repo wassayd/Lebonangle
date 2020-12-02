@@ -21,6 +21,7 @@ class AdvertSubscriber implements EventSubscriber
         /** @var Advert $advert */
         $advert = $event->getObject();
         $advert->setCreatedAt(new \DateTime());
+        $advert->setState('draft');
     }
 
     public function getSubscribedEvents()
@@ -29,4 +30,5 @@ class AdvertSubscriber implements EventSubscriber
             Events::prePersist,
         ];
     }
+
 }

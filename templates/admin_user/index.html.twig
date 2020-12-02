@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des admin{% endblock %}
+
+{% block body %}
+    <h1 class="jumbotron">Liste des admin</h1>
+
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for admin_user in admin_users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ admin_user.username }}</td>
+                <td>{{ admin_user.email }}</td>
+                <td>
+                    {% for role in admin_user.roles %}
+                        <span class="badge bg-info">{{role | lower}}</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': admin_user.id}) }}">show</a>
+                    <a class="btn btn-info" href="{{ path('admin_user_edit', {'id': admin_user.id}) }}">edit</a>
+                    {% if app.user != admin_user %}
+                        <a class="btn btn-danger"  onclick="deleteUser()">delete</a>
+                        <div id="delete" style="display: none">
+                            {{ include('admin_user/_delete_form.html.twig') }}
+                        </div>
+                    {% else %}
+                        <button disabled class="btn btn-danger  text-decoration-line-through">delete</button>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Vide</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-success" href="{{ path('admin_user_new') }}">Create new</a>
+    <div id="res"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function deleteUser()
+        {
+            document.querySelector('#delete form').submit();
+        }
+    </script>
+{% endblock %}

@@ -2,14 +2,28 @@
 
 namespace App\Entity;
 
+use App\Controller\api\GetPublishedAdverts;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AdvertRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 
 /**
+ * @ApiResource(
+ *     itemOperations={"get"},
+ *     collectionOperations={"get"={"controller"=GetPublishedAdverts::class},"post"},
+ *     denormalizationContext={"groups"={"write"}}
+ * )
+ * @ApiFilter(OrderFilter::class, properties={"publishedAt","price"})
+ * @ApiFilter(RangeFilter::class, properties={"price"})
  * @ORM\Entity(repositoryClass=AdvertRepository::class)
  */
 class Advert
@@ -22,6 +36,7 @@ class Advert
     private ?int $id;
 
     /**
+     * @Groups("write")
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
      *      min = 3,
@@ -33,6 +48,7 @@ class Advert
     private ?string $title;
 
     /**
+     * @Groups("write")
      * @ORM\Column(type="text")
      * @Assert\Length(
      *      max = 1200,
@@ -42,22 +58,27 @@ class Advert
     private ?string $content;
 
     /**
+     * @Groups("write")
      * @ORM\Column(type="string", length=255)
      */
     private ?string $author;
 
     /**
+     * @Groups("write")
      * @ORM\Column(type="string", length=255)
      */
     private ?string $email;
 
     /**
+     * @Groups("write")
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
+     * @ApiFilter(SearchFilter::class, properties={"category.id": "iexact"})
      */
     private ?Category $category;
 
     /**
+     * @Groups("write")
      * @ORM\Column(type="float")
      * @Assert\Range(
      *      min = 1,
@@ -83,6 +104,7 @@ class Advert
     private ?DateTimeInterface $publishedAt;
 
     /**
+     * @Groups("write")
      * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="advert", orphanRemoval=true)
      */
     private ?Collection $pictures;
