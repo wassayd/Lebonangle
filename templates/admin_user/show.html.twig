@@ -31,14 +31,14 @@
     </table>
 
     <div class="d-flex justify-content-between" style="width: 300px">
-        <a href="{{ path('admin_user_index') }}" class="btn btn-info">Back to list</a>
+        <a href="{{ path('admin_user_index') }}" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> Retour</a>
 
-        <a href="{{ path('admin_user_edit', {'id': admin_user.id}) }}" class="btn btn-success">Edit</a>
+        <a href="{{ path('admin_user_edit', {'id': admin_user.id}) }}" class="btn btn-success"><i class="fa fa-edit"></i></a>
 
         {% if app.user != admin_user %}
             {{ include('admin_user/_delete_form.html.twig') }}
         {% else %}
-            <button disabled class="btn btn-danger  text-decoration-line-through">delete</button>
+            <button disabled class="btn btn-danger  text-decoration-line-through"><i class="fa fa-delete"></i></button>
         {% endif %}
 
     </div>

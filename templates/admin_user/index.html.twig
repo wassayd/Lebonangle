@@ -27,15 +27,15 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': admin_user.id}) }}">show</a>
-                    <a class="btn btn-info" href="{{ path('admin_user_edit', {'id': admin_user.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('admin_user_show', {'id': admin_user.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-info" href="{{ path('admin_user_edit', {'id': admin_user.id}) }}"><i class="fa fa-edit"></i></a>
                     {% if app.user != admin_user %}
-                        <a class="btn btn-danger"  onclick="deleteUser()">delete</a>
-                        <div id="delete" style="display: none">
+                        <a class="btn btn-danger"  onclick="deleteUser('delete{{ admin_user.id }}')"><i class="fa fa-trash"></i></a>
+                        <div id="delete{{ admin_user.id }}" style="display: none">
                             {{ include('admin_user/_delete_form.html.twig') }}
                         </div>
                     {% else %}
-                        <button disabled class="btn btn-danger  text-decoration-line-through">delete</button>
+                        <button disabled class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     {% endif %}
 
                 </td>
@@ -48,15 +48,14 @@
         </tbody>
     </table>
 
-    <a class="btn btn-success" href="{{ path('admin_user_new') }}">Create new</a>
-    <div id="res"></div>
+    <a class="btn btn-success my-3" href="{{ path('admin_user_new') }}"><i class="fa fa-plus"></i> Créer un admin</a>
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        function deleteUser()
+        function deleteUser(e)
         {
-            document.querySelector('#delete form').submit();
+            document.querySelector(e+' form').submit();
         }
     </script>
 {% endblock %}

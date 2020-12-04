@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Advert;
+use App\Entity\Category;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
 use App\Repository\PictureRepository;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
- * @Route("/advert")
+ * @Route("/admin/advert")
  */
 class AdvertController extends AbstractController
 {
@@ -73,6 +74,23 @@ class AdvertController extends AbstractController
         }
 
         return $this->redirectToRoute('advert_index');
+    }
+
+    /**
+     * @Route("/category/{id}", name="advert_by_category", methods={"GET"})
+     */
+    public function listByCategory(Request $request, AdvertRepository $advertRepository, PaginatorInterface $paginator, Category $id): Response
+    {
+        $adverts = $paginator->paginate(
+            $advertRepository->findBy(["category" => $id]),
+            $request->query->getInt('page', 1),
+            30
+        );
+
+        return $this->render('advert/index.html.twig', [
+            'adverts' => $adverts,
+            'title' => "Annonce de la categorie ". $id->getName()
+        ]);
     }
 
 }

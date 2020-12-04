@@ -3,7 +3,7 @@
 {% block title %}Liste des categories{% endblock %}
 
 {% block body %}
-    <h1>Liste des categories</h1>
+    <h1 class="jumbotron">Liste des categories</h1>
 
     <table class="table table-striped text-center">
         <thead>
@@ -19,8 +19,13 @@
                 <td>{{ loop.index }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ path('category_show', {'id': category.id}) }}">show</a>
-                    <a class="btn btn-info" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                    <a class="btn btn-primary" href="{{ path('category_show', {'id': category.id}) }}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-info" href="{{ path('category_edit', {'id': category.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-danger"  onclick="deleteCategory('#delete{{ category.id }}')"><i class="fa fa-trash"></i></a>
+                    <div id="delete{{ category.id }}" style="display: none">
+                        {{ include('category/_delete_form.html.twig') }}
+                    </div>
+                    <a href="{{ path('advert_by_category',{'id': category.id}) }}" class="btn btn-outline-primary">Voir les annonces</a>
                 </td>
             </tr>
         {% else %}
@@ -30,6 +35,15 @@
         {% endfor %}
         </tbody>
     </table>
+    {{ knp_pagination_render(categories) }}
+    <a class="btn btn-success" href="{{ path('category_new') }}"><i class="fa fa-plus"></i> Créer une categorie</a>
+{% endblock %}
 
-    <a class="btn btn-success" href="{{ path('category_new') }}">Create new</a>
+{% block javascripts %}
+    <script>
+        function deleteCategory(e)
+        {
+            document.querySelector(e+' form').submit();
+        }
+    </script>
 {% endblock %}

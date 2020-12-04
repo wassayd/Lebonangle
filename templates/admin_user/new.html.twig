@@ -3,9 +3,9 @@
 {% block title %}New AdminUser{% endblock %}
 
 {% block body %}
-    <h1>Create new AdminUser</h1>
+    <h1 class="jumbotron">Créer un admin</h1>
 
     {{ include('admin_user/_form.html.twig') }}
 
-    <a href="{{ path('admin_user_index') }}" class="btn btn-info">back to list</a>
+    <a href="{{ path('admin_user_index') }}" class="btn btn-info"><i class="fa fa-arrow-circle-left"></i> Retour</a>
 {% endblock %}

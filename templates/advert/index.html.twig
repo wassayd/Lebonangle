@@ -3,7 +3,13 @@
 {% block title %}Advert index{% endblock %}
 
 {% block body %}
-    <h1>Advert index</h1>
+    <h1 class="jumbotron">
+        {% if title is defined %}
+            {{ title }}
+        {% else %}
+            Liste des annonces
+        {% endif %}
+    </h1>
 
     <table class="table">
         <thead>

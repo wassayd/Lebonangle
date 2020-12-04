@@ -91,9 +91,9 @@ class Picture
      * @ApiFilter(SearchFilter::class, properties={"advert.id": "iexact"})
      * @Groups("picture_read")
      * @ORM\ManyToOne(targetEntity=Advert::class, inversedBy="pictures", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
-    private Advert $advert;
+    private ?Advert $advert = null;
 
     public function getId(): ?int
     {

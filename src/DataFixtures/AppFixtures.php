@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
 
         $category = new Category();
-        $category->setName('categorie test');
+        $category->setName('Categorie 1');
 
         $userRoot = new AdminUser();
         $userRoot->setUsername('root')
@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
 
             for ($j = 0; $j<3; $j++) {
                 $advert = new Advert();
-                $advert->setTitle($faker->title)
+                $advert->setTitle(substr($faker->text,0,10))
                     ->setEmail($faker->email)
                     ->setAuthor($faker->name)
                     ->setCategory($category)
@@ -45,12 +45,8 @@ class AppFixtures extends Fixture
                     ->setPrice(100000.0)
                 ;
 
-                $picture = new Picture();
-                $picture->setPath('file'.$j.'.png');
-                $picture->setAdvert($advert);
-
                 $manager->persist($advert);
-                $manager->persist($picture);
+
             }
 
             $manager->persist($user);

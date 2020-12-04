@@ -3,7 +3,7 @@
 {% block title %}Advert{% endblock %}
 
 {% block body %}
-    <h1>Advert</h1>
+    <h1 class="jumbotron">Detaille de l'annonce</h1>
 
     <table class="table">
         <tbody>
@@ -45,13 +45,20 @@
             </tr>
         </tbody>
     </table>
-    <hr>
+
     <h5>Photo</h5>
+    <hr>
+    <div class="my-5">
+        {% if advert.pictures |length == 0 %}
+            <div class="alert alert-info">
+                Aucune photo publié
+            </div>
+        {% endif %}
+        {% for picture in advert.pictures %}
+            <img width="300" class="img-thumbnail" src="{{ vich_uploader_asset(picture, 'file') }}"/>
+        {% endfor %}
+    </div>
 
-    {% for picture in advert.pictures %}
-        {{ dump(picture) }}
-        <img class="photo" src="{{ vich_uploader_asset(picture, 'file') }}"/>
-    {% endfor %}
 
-    <a href="{{ path('advert_index') }}">back to list</a>
+    <a href="{{ path('advert_index') }}" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> Retour</a>
 {% endblock %}
